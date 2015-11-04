@@ -30,6 +30,7 @@ namespace SinglyLinkedLists
         public string Value
         {
             get { return value; }
+            set { this.value = value; }
         }
 
         public static bool operator <(SinglyLinkedListNode node1, SinglyLinkedListNode node2)
@@ -56,22 +57,48 @@ namespace SinglyLinkedLists
             return value.ToString();
         }
 
-        // READ: http://msdn.microsoft.com/en-us/library/system.icomparable.compareto.aspx
-        public int CompareTo(Object obj)
+        public override bool Equals(object obj)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool IsLast()
-        {
-            if (this.next == null)
+            if (obj is SinglyLinkedListNode)
             {
-                return true;
+                SinglyLinkedListNode node = obj as SinglyLinkedListNode;
+                return Equals(node.Value, this.Value);
             }
             else
             {
                 return false;
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Value.GetHashCode();
+        }
+
+        // READ: http://msdn.microsoft.com/en-us/library/system.icomparable.compareto.aspx
+        public int CompareTo(Object obj)
+        {
+            if (obj == null)
+            {
+                return 1;
+            }
+            else
+            {
+                SinglyLinkedListNode node = obj as SinglyLinkedListNode;
+                if (node != null)
+                {
+                    return this.Value.CompareTo(node.Value);
+                }
+                else
+                {
+                    throw new ArgumentException("Argument not valid");
+                }
+            }
+        }
+
+        public bool IsLast()
+        {
+            return (next == null);
         }
     }
 }

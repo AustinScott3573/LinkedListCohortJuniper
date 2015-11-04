@@ -78,7 +78,7 @@ namespace UnitTestSinglyLinkedLists
             list.ElementAt(5);
         }
 
-        // CHALLENGE: Implementing negative indices, such that -1 would return "grille" and -2 would return "bar". Write tests first!
+        // CHALLENGE: Implementing negative indices, such that -1 would return "bar" and -2 would return "bar". Write tests first!
         [TestMethod]
         public void ElementAtNegativeIndex()
         {
@@ -86,7 +86,7 @@ namespace UnitTestSinglyLinkedLists
             list.AddLast("foo");
             list.AddLast("bar");
             list.AddLast("grille");
-            list.ElementAt(-2);
+            Assert.AreEqual("bar", list.ElementAt(-2));
         }
 
         [TestMethod]
@@ -100,6 +100,22 @@ namespace UnitTestSinglyLinkedLists
         public void LastOnShortList()
         {
             SinglyLinkedList list = new SinglyLinkedList();
+            list.AddLast("foo");
+            Assert.AreEqual("foo", list.Last());
+        }
+
+        [TestMethod]
+        public void TestingMyLastMethodWithNoNodes()
+        {
+            SinglyLinkedList list = new SinglyLinkedList();
+            Assert.AreEqual(null, list.Last());
+        }
+
+        [TestMethod]
+        public void TestingMyLastMethodWithNodes()
+        {
+            SinglyLinkedList list = new SinglyLinkedList();
+            SinglyLinkedListNode node1 = new SinglyLinkedListNode("foo");
             list.AddLast("foo");
             Assert.AreEqual("foo", list.Last());
         }
@@ -195,6 +211,26 @@ namespace UnitTestSinglyLinkedLists
             list.AddLast("foo");
             list.AddLast("bar");
             list.AddAfter("cat", "grille");
+        }
+
+        [TestMethod]
+        public void nodeNameExists()
+        {
+            SinglyLinkedList list = new SinglyLinkedList();
+            list.AddLast("foo");
+            list.AddLast("bar");
+            bool expected = true;
+            Assert.AreEqual(expected, list.NodeNameExists("foo"));
+        }
+
+        [TestMethod]
+        public void nodeNameDoesNotExist()
+        {
+            SinglyLinkedList list = new SinglyLinkedList();
+            list.AddLast("foo");
+            list.AddLast("bar");
+            bool expected = false;
+            Assert.AreEqual(expected, list.NodeNameExists("fool"));
         }
 
         [TestMethod]
@@ -354,6 +390,23 @@ namespace UnitTestSinglyLinkedLists
         }
 
         [TestMethod]
+        public void testIndexOfNodeInFirst()
+        {
+            SinglyLinkedList list = new SinglyLinkedList();
+            list.AddFirst("node1");
+            Assert.AreEqual(0, list.IndexOf("node1"));
+        }
+
+        [TestMethod]
+        public void testIndexOfNodeForMultipleItems()
+        {
+            SinglyLinkedList list = new SinglyLinkedList();
+            list.AddFirst("node1");
+            list.AddLast("node2");
+            Assert.AreEqual(1, list.IndexOf("node2"));
+        }
+
+        [TestMethod]
         public void IndexOfNodeInMiddlePosition()
         {
             SinglyLinkedList list = new SinglyLinkedList("foo", "bar", "grille");
@@ -476,6 +529,14 @@ namespace UnitTestSinglyLinkedLists
             list.Sort();
             var expected = new string[] { "bar", "bar", "foo", "grille" };
             CollectionAssert.AreEqual(expected, list.ToArray());
+        }
+
+        [TestMethod]
+        public void TestingMyCountMethodForNewList()
+        {
+            SinglyLinkedList list = new SinglyLinkedList();
+            int expected = 0;
+            Assert.AreEqual(expected, list.Count());
         }
     }
 }
